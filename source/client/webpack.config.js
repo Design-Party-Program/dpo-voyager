@@ -79,7 +79,14 @@ const apps = {
     },
 };
 
-const version = childProcess.execSync("git describe --tags").toString().trim();
+// Add error handling for git describe --tags
+let version;
+try {
+    version = childProcess.execSync("git describe --tags").toString().trim();
+} catch (error) {
+    version = "unknown"; // Fallback version if git describe fails
+}
+
 const analyticsId = process.env["VOYAGER_ANALYTICS_ID"];
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -244,7 +251,7 @@ module.exports = function(env, argv)
                     // Typescript/JSX files
                     test: /\.tsx?$/,
                     use: "ts-loader",
-		            exclude: /node_modules/,
+                    exclude: /node_modules/,
                 },
                 {
                     test: /\.hbs$/,
