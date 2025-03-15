@@ -96,6 +96,12 @@ export default class CVMediaManager extends CAssetManager
         return this.assetManager.getAssetUrl(resolvePathname(uri, this.rootUrl));
     }
 
+    private extractJwtToken(): string {
+      const urlParams = new URLSearchParams(window.location.search);
+      console.log("mediamangeer urlParams", window.location, urlParams, urlParams.get('token') || '');
+      return urlParams.get('token') || '';
+  }
+
     uploadFile(name: string, blob: Blob, folder: IAssetEntry): Promise<any>
     {
         const filename = decodeURI(name);
@@ -108,7 +114,9 @@ export default class CVMediaManager extends CAssetManager
             return Promise.resolve();
         }
         else {
-            const params: RequestInit = { method: "PUT", credentials: "include", body: new File([blob], filename) };
+            const params: RequestInit = { method: "PUT", credentials: "include", body: new File([blob], filename), headers:{
+              "Authorization": `Bearer ${this.extractJwtToken()}`, // Add the JWT token to the headers
+            } };
             return fetch(url, params).then(() => this.refresh());
         }
     }

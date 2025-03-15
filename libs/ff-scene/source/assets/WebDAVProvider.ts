@@ -73,8 +73,8 @@ export default class WebDAVProvider {
     // Method to extract the JWT token from the URL
     private extractJwtToken(): string {
         const urlParams = new URLSearchParams(window.location.search);
-        console.log("urlParams.get('jwt') || ''", urlParams.get('jwt') || '');
-        return urlParams.get('jwt') || '';
+        console.log("webdav provider urlParams", urlParams.get('token') || '');
+        return urlParams.get('token') || '';
     }
 
     get(folderPath: string | IFileInfo, recursive: boolean): Promise<IFileInfo[]> {

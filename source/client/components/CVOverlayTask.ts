@@ -530,6 +530,9 @@ export default class CVOverlayTask extends CVTask
             fetch(fileURL, {
                 method:"PUT",
                 body: file,
+                headers:{
+                  "Authorization": `Bearer ${this.extractJwtToken()}`
+                }
             })
             .then(() => {
                 this.setSaveNeeded(false);
@@ -541,6 +544,13 @@ export default class CVOverlayTask extends CVTask
             });
         }
     }
+
+    private extractJwtToken(): string {
+      const urlParams = new URLSearchParams(window.location.search);
+      console.log("overlay task urlParams", urlParams.get('token') || '');
+      return urlParams.get('token') || '';
+  }
+
 
     protected setSaveNeeded(isDirty: boolean) 
     {

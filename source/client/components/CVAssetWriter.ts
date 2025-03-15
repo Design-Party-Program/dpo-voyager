@@ -34,6 +34,9 @@ export default class CVAssetWriter extends Component
     static readonly icon: string = "";
 
     static readonly isSystemSingleton = true;
+    
+    private _jwtToken: string; // Add a property to store the JWT token
+
 
 
 
@@ -42,7 +45,15 @@ export default class CVAssetWriter extends Component
         super(node, id);
 
         const loadingManager = this.assetManager.loadingManager;
+        this._jwtToken = this.extractJwtToken(); // Initialize the JWT token
 
+    }
+
+    // Method to extract the JWT token from the URL
+    private extractJwtToken(): string {
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log("assetwriter urlParams", urlParams.get('token') || '');
+        return urlParams.get('token') || '';
     }
 
     protected get assetManager() {
@@ -68,6 +79,7 @@ export default class CVAssetWriter extends Component
             headers:{
                 "Accept": "text/plain",
                 "Content-Type": contentType,
+                "Authorization": `Bearer ${this._jwtToken}` // Add the JWT token to the headers
             },
             body,
         });

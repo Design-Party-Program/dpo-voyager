@@ -76,6 +76,8 @@ export default class CVCaptureTask extends CVTask
     static readonly text: string = "Capture";
     static readonly icon: string = "camera";
 
+    private _jwtToken: string; // Add a property to store the JWT token
+
     protected static readonly ins = {
         take: types.Event("Picture.Take"),
         save: types.Event("Picture.Save"),
@@ -85,6 +87,13 @@ export default class CVCaptureTask extends CVTask
         quality: types.Percent("Picture.Quality", 0.85),
         restore: types.Event("State.Restore"),
     };
+
+    // Method to extract the JWT token from the URL
+    private extractJwtToken(): string {
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log("capture tasks urlParams'", urlParams.get('token') || '');
+        return urlParams.get('token') || '';
+    }
 
     protected static readonly outs = {
         ready: types.Boolean("Picture.Ready"),
@@ -236,6 +245,9 @@ export default class CVCaptureTask extends CVTask
                 fetch(fileURL, {
                     method:"PUT",
                     body: file,
+                    headers: {
+                      "Authorization": `Bearer ${this._jwtToken}` // Add the JWT token to the headers
+                    }
                 })
                 .then(() => {
                     this.updateImageMeta(quality, this._mimeType, filePath);
