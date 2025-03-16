@@ -98,7 +98,7 @@ export default class CVMediaManager extends CAssetManager
 
     private extractJwtToken(): string {
       const urlParams = new URLSearchParams(window.location.search);
-      console.log("mediamangeer urlParams", window.location, urlParams, urlParams.get('token') || '');
+      // console.log("mediamangeer urlParams", window.location, urlParams, urlParams.get('token') || '');
       return urlParams.get('token') || '';
   }
 

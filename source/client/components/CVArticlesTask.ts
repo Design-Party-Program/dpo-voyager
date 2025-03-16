@@ -144,13 +144,12 @@ export default class CVArticlesTask extends CVTask
                 if (ins.uri.changed) {
                     activeArticle.uri = ins.uri.value;
                     this.reader.ins.refresh.set();
-
+                    // CVArticles Task activeArticle.uri", activeArticle.uri, 'Scene_b5ebe795-65c2-4561-8ca4-3c0ce5c4b9a0/'+activeArticle.uri);
                     if(!this.mediaManager.getAssetByPath(activeArticle.uri)) {
                         new Notification(`Unable to find article: '${activeArticle.uri}'. Check asset name.`, "error", 4000);
                         this.mediaManager.open(null);
                         return false;
-                    }
-                    else {
+                    } else {
                         ins.edit.set();
                     }
                 }

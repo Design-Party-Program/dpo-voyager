@@ -153,7 +153,8 @@ export default class CAssetManager extends Component
     }
 
     getAssetByPath(path: string)
-    {
+    {   
+        //console.log("assetManager._assetsByPath", this._assetsByPath);
         return this._assetsByPath[path];
     }
 
@@ -161,7 +162,9 @@ export default class CAssetManager extends Component
     {
         return this._provider.get(".", true)
             .then(infos => {
+                console.log('assetManager.refresh: INFOS', infos);
                 this._rootAsset = this.createAssetTree(infos);
+                console.log('assetManager.refresh: ROOT ASSET', this._rootAsset);
                 this.emit<IAssetTreeChangeEvent>({ type: "tree-change", root: this._rootAsset });
             });
     }
@@ -183,14 +186,21 @@ export default class CAssetManager extends Component
 
         for (let i = 1, ni = infos.length; i < ni; ++i) {
             const info = infos[i];
+            //console.log('assetManager.createAssetTree: INFO', info);
             const parts = info.path.split("/").filter(part => !!part);
-
+            //console.log('assetManager.createAssetTree: PARTS', parts);
             let entry = root;
+            //console.log('assetManager.createAssetTree: ENTRY', entry);
             for (let j = 0, nj = parts.length; j < nj; ++j) {
                 const part = parts[j];
-
+                //console.log('assetManager.createAssetTree: PART', part);
                 if (j < nj - 1) {
-                    entry = entry.children.find(child => child.info.name === part);
+                  //console.log('assetManager.createAssetTree: ENTRY', entry);
+                    entry = entry.children.find(child => { 
+                      //console.log('assetManager.createAssetTree: CHILD', child, part);
+                      return child.info.name === part
+                    });
+                    //console.log('assetManager.createAssetTree: ENTRY CORRECTED', entry);
                     if (!entry) {
                         break;
                     }

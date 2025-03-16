@@ -52,7 +52,7 @@ export default class CVAssetWriter extends Component
     // Method to extract the JWT token from the URL
     private extractJwtToken(): string {
         const urlParams = new URLSearchParams(window.location.search);
-        console.log("assetwriter urlParams", urlParams.get('token') || '');
+        // console.log("assetwriter urlParams", urlParams.get('token') || '');
         return urlParams.get('token') || '';
     }
 
@@ -79,7 +79,7 @@ export default class CVAssetWriter extends Component
             headers:{
                 "Accept": "text/plain",
                 "Content-Type": contentType,
-                "Authorization": `Bearer ${this._jwtToken}` // Add the JWT token to the headers
+                "Authorization": `Bearer ${this.extractJwtToken()}` // Add the JWT token to the headers
             },
             body,
         });

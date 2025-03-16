@@ -91,7 +91,7 @@ export default class CVCaptureTask extends CVTask
     // Method to extract the JWT token from the URL
     private extractJwtToken(): string {
         const urlParams = new URLSearchParams(window.location.search);
-        console.log("capture tasks urlParams'", urlParams.get('token') || '');
+        // console.log("capture tasks urlParams'", urlParams.get('token') || '');
         return urlParams.get('token') || '';
     }
 
@@ -246,7 +246,7 @@ export default class CVCaptureTask extends CVTask
                     method:"PUT",
                     body: file,
                     headers: {
-                      "Authorization": `Bearer ${this._jwtToken}` // Add the JWT token to the headers
+                      "Authorization": `Bearer ${this.extractJwtToken()}` // Add the JWT token to the headers
                     }
                 })
                 .then(() => {

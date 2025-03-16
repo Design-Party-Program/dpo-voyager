@@ -547,9 +547,9 @@ export default class CVOverlayTask extends CVTask
 
     private extractJwtToken(): string {
       const urlParams = new URLSearchParams(window.location.search);
-      console.log("overlay task urlParams", urlParams.get('token') || '');
+      // console.log("overlay task urlParams", urlParams.get('token') || '');
       return urlParams.get('token') || '';
-  }
+    }
 
 
     protected setSaveNeeded(isDirty: boolean) 
